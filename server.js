@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'))
 //initiate database
-mongoose.connect('mongodb+srv://gg:dZ4hbA7mTfVnPne3@cluster0.xhtug.mongodb.net/Cluster0?retryWrites=true&w=majority',  { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGO_URI,  { useNewUrlParser: true, useUnifiedTopology: true })
 const UserSchema = new mongoose.Schema({
     username: String,
     id: String,
