@@ -51,8 +51,6 @@ app.post('/api/exercise/new-user', function (req, res) {
 //add excercise
 app.post('/api/exercise/add', function (req, res) {
   let userId = req.body.userId;
-  let date = Date.now()
-  let useDate = date.toLocaleDateString()
   User.findByIdAndUpdate(userId,
     { 
       $inc: {
@@ -62,7 +60,7 @@ app.post('/api/exercise/add', function (req, res) {
         log: {
         description: req.body.description,
         duration: req.body.duration,
-        date: req.body.date ? req.body.date : useDate
+        date: req.body.date ? req.body.date : Date.now()
         }
       }
     },
@@ -70,10 +68,12 @@ app.post('/api/exercise/add', function (req, res) {
      function (err, user) {
       if (err) return console.log(err)
       let logLength = user.log.length-1
+      let date = user.log[logLength].date
+      let useDate = date.toLocaleDateString()
       return res.send({
         _id: user._id,
         username: user.username,
-        date: user.log[logLength].date,
+        date: useDate,
         duration: user.log[logLength].duration,
         description: user.log[logLength].description
       });
