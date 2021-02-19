@@ -51,8 +51,6 @@ app.post('/api/exercise/new-user', function (req, res) {
 //add excercise
 app.post('/api/exercise/add', function (req, res) {
   let userId = req.body.userId;
-  let newCount = res.count++
-  console.log(userId)
   User.findByIdAndUpdate(userId,
     { 
       $inc: {
@@ -69,7 +67,6 @@ app.post('/api/exercise/add', function (req, res) {
      {new: true},
      function (err, user) {
       let logLength = user.log.length-1
-      console.log(logLength)
       return res.send({
         id: user._id,
         username: user.username,
@@ -85,7 +82,6 @@ app.post('/api/exercise/add', function (req, res) {
 app.get('/api/exercise/users', function (req, res) {
   User.find(function(err, users) {
     if (err) console.log(err)
-    console.log(users)
     res.json(users)
   })
 })
@@ -93,13 +89,12 @@ app.get('/api/exercise/users', function (req, res) {
 //get user log
 app.get('/api/exercise/log', function (req, res) {
  let id = req.query.userId
- User.findOne({_id: id},function(err, users) {
+ let limit = parseInt(req.query.limit)
+ User.findOne({_id: id}, { "log": { $slice: limit } }, function(err, users) {
   if (err) console.log(err)
-  console.log(users)
   res.json(users)
 })
 })
-//  User.findById({req.params})
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
