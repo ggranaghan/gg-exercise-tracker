@@ -87,10 +87,9 @@ app.get('/api/exercise/users', function (req, res) {
 })
 
 //get user log
-app.get('/api/exercise/log', function (req, res) {
+app.get('/api/exercise/log', function (req, res, data) {
  let id = req.query.userId
  let limit = parseInt(req.query.limit)
- if (req.query.from) {
   let oldest = new Date(req.query.from)
   let newest
   if (req.query.to){
@@ -98,18 +97,22 @@ app.get('/api/exercise/log', function (req, res) {
   } else {
     newest = new Date()
   }
-   console.log(oldest)
-   console.log(newest)
- User.findOne( {$and: [{_id: id}, {date:{$gte: oldest, $lte: newest}}]}, { "log": { $slice: limit } }, function(err, users) {
-  if (err) console.log(err)
-  res.json(users)
-})
- } else {
   User.findOne( {_id: id}, { "log": { $slice: limit } }, function(err, users) {
     if (err) console.log(err)
-    res.json(users)
+    let logArray = users.log;
+
+    for (obj in logArray) {
+      if (logArray[obj].date < oldest || logArray[obj].date > newest) {
+        logArray.splice(obj, 1)
+      }
+    }
+    res.send({
+      id: users._id,
+      username: users.username,
+      count: users.count,
+      log: logArray
+    })
   })
- }
 })
 
 app.get('/', (req, res) => {
