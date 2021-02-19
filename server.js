@@ -66,6 +66,7 @@ app.post('/api/exercise/add', function (req, res) {
     },
      {new: true},
      function (err, user) {
+      if (err) return console.log(err)
       let logLength = user.log.length-1
       return res.send({
         _id: user._id,
@@ -87,7 +88,7 @@ app.get('/api/exercise/users', function (req, res) {
 })
 
 //get user log
-app.get('/api/exercise/log', function (req, res, data) {
+app.get('/api/exercise/log', function (req, res) {
  let id = req.query.userId
  let limit = parseInt(req.query.limit)
   let oldest = new Date(req.query.from)
