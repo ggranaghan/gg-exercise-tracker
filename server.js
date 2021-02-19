@@ -110,11 +110,7 @@ app.get('/api/exercise/log', function (req, res, data) {
       _id: users._id,
       username: users.username,
       count: users.count,
-      log: [{
-        description: logArray.description,
-        duration: logArray.duration,
-        date: logArray.date
-      }]
+      log: logArray
     })
   })
 })
