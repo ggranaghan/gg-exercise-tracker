@@ -69,7 +69,7 @@ app.post('/api/exercise/add', function (req, res) {
       if (err) return console.log(err)
       let logLength = user.log.length-1
       let date = user.log[logLength].date
-      let useDate = date.toLocaleDateString()
+      let useDate = date.toDateString()
       return res.send({
         _id: user._id,
         username: user.username,
