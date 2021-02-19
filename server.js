@@ -44,7 +44,7 @@ app.post('/api/exercise/new-user', function (req, res) {
   })
   res.json({
     username: newUser.username,
-    id: newUser._id
+    _id: newUser._id
   })
 })
 
@@ -68,7 +68,7 @@ app.post('/api/exercise/add', function (req, res) {
      function (err, user) {
       let logLength = user.log.length-1
       return res.send({
-        id: user._id,
+        _id: user._id,
         username: user.username,
         date: user.log[logLength].date,
         duration: user.log[logLength].duration,
