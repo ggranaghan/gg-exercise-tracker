@@ -4,13 +4,8 @@
 	"description": "A REST API project, part of Free Code Camp's curriculum",
 	"main": "server.js",
 	"scripts": {
-		"dev": "react-scripts start",
-		"start": "serve -s build",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject",
-		"heroku-postbuild": "npm run build"
-		},
+		"start": "node server.js"
+	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"cors": "^2.8.5",
@@ -18,8 +13,7 @@
 		"express": "^4.17.1",
 		"mongodb": "^3.6.4",
 		"mongoose": "^5.11.16",
-		"path": "^0.12.7",
-		"serve": "^11.3.2"
+		"path": "^0.12.7"
 	},
 	"repository": {
 		"url": "https://github.com/freeCodeCamp/boilerplate-project-exercisetracker"
