@@ -16,7 +16,10 @@ mongoose.connect(process.env.MONGO_URI,  { useNewUrlParser: true, useUnifiedTopo
 const UserSchema = new mongoose.Schema({
     username: String,
     id: String,
-    count: Number,
+    count: {
+      type: Number,
+      default: 0
+    },
     log: [{
       description: String,
       duration: Number,
@@ -33,7 +36,8 @@ console.log("db connected")
 app.post('/api/exercise/new-user', function (req, res) {
   var newUser = new User({
     username: req.body.username,
-    id: req.body.id
+    id: req.body.id,
+    count: 0
   })
   newUser.save((err) => {
     if (err) return console.log(err)
@@ -47,9 +51,13 @@ app.post('/api/exercise/new-user', function (req, res) {
 //add excercise
 app.post('/api/exercise/add', function (req, res) {
   let userId = req.body.userId;
+  let newCount = res.count++
   console.log(userId)
   User.findByIdAndUpdate(userId,
-    {
+    { 
+      $inc: {
+        count:1
+      },
       $push: {
         log: {
         description: req.body.description,
@@ -58,9 +66,10 @@ app.post('/api/exercise/add', function (req, res) {
         }
       }
     },
-    { upsert: false },
-    function (err, user) {
+     {new: true},
+     function (err, user) {
       let logLength = user.log.length-1
+      console.log(logLength)
       return res.send({
         id: user._id,
         username: user.username,
@@ -69,10 +78,8 @@ app.post('/api/exercise/add', function (req, res) {
         description: user.log[logLength].description
       });
     }
-  );
+  )
 }) 
-
-
 
 //get all users
 app.get('/api/exercise/users', function (req, res) {
