@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-require('dotenv').config();
+// require('dotenv').config();
 const path = require('path');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
